@@ -21,30 +21,38 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
-      'questionText': 'Qual a capital de Minas Gerais?',
+      'questionText': 'Qual dos animais abaixo é um artrópode?',
       'answers': [
-        {'text': 'Belo Horizonte', 'score': 10},
-        {'text': 'Passos', 'score': 1},
-        {'text': 'Campinas', 'score': 1},
-        {'text': 'Guaxupé', 'score': 1},
+        {'text': 'Polvo', 'score': 0},
+        {'text': 'Minhoca', 'score': 0},
+        {'text': 'Borboleta', 'score': 1},
+        {'text': 'Dinossauro', 'score': 0},
       ],
     },
     {
-      'questionText': 'Onde está localizada a Torre Eiffel?',
+      'questionText': 'Qual artrópode da lista é um animal peçonhento?',
       'answers': [
-        {'text': 'Rio de Janeiro', 'score': 1},
-        {'text': 'Vancouver', 'score': 1},
-        {'text': 'Paris', 'score': 10},
-        {'text': 'Dinamarca', 'score': 1},
+        {'text': 'Lacraia', 'score': 1},
+        {'text': 'Barata', 'score': 0},
+        {'text': 'Siri', 'score': 0},
+        {'text': 'Gafanhoto', 'score': 0},
       ]
     },
     {
-      'questionText': 'O Pré-Sal fica no litoral...',
+      'questionText': 'Artrópodes são animais com...',
       'answers': [
-        {'text': 'Argentino', 'score': 1},
-        {'text': 'Espanhol', 'score': 1},
-        {'text': 'Norueguês', 'score': 1},
-        {'text': 'Brasileiro', 'score': 10}
+        {'text': 'Exoesqueleto', 'score': 1},
+        {'text': 'Endoesqueleto', 'score': 0}
+      ],
+    },
+    {
+      'questionText':
+          'Camarão, lagosta e caranguejo fazem parte de qual classe dos artrópodes?',
+      'answers': [
+        {'text': 'Quilópodes', 'score': 0},
+        {'text': 'Crustáceos', 'score': 1},
+        {'text': 'Aracnídeos', 'score': 0},
+        {'text': 'Nenhuma', 'score': 0}
       ],
     },
   ];
@@ -52,18 +60,19 @@ class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
   var _totalScore = 0;
 
-  void _answerQuestion(int score) {
-    _totalScore += _totalScore + score;
+  void resetQuiz() {
+    setState(() {});
+    _questionIndex = 0;
+    _totalScore = 0;
+  }
 
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
+    print(_totalScore);
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print('Sei lá o que!');
-    } else {
-      print('Sei o que lá');
-    }
   }
 
   @override
@@ -71,14 +80,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My first App'),
+          title: Text('Quiz - Artrópodes'),
         ),
         body: _questionIndex < _questions.length
             ? Quiz(
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions)
-            : Result(_totalScore),
+            : Result(_totalScore, resetQuiz),
       ),
     );
   }
